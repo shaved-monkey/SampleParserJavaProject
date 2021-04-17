@@ -8,8 +8,7 @@ class GooglePlay {
     fun getPage(url: String): List<Output> {
         return Jsoup.connect(url)
             .get()
-            .getElementsByTag("script")
-            .filter { element -> element.attr("type").equals("application/ld+json") }
+            .getElementsByAttributeValue("type", "application/ld+json")
             .map { element -> element.data()}
             .map { data -> data }
             .map { data -> Gson().fromJson(data, PlayData::class.java)}
