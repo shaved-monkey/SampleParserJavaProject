@@ -12,6 +12,6 @@ class GooglePlay {
             .map { element -> element.data()}
             .map { data -> data }
             .map { data -> Gson().fromJson(data, PlayData::class.java)}
-            .map { playData -> Output(playData.name, playData.description, playData.author.name, playData.offers[0].price, playData.aggregateRating.ratingValue)}
+            .map { playData -> Output(playData.name, playData.description.substringBefore("\n\n"), playData.author.name, playData.offers[0].price, playData.aggregateRating.ratingValue)}
     }
 }
