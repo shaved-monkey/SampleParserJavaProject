@@ -29,7 +29,7 @@ class GooglePlay: Retriever {
                 playData.description.substringBefore("\n\n"),
                 playData.author.name,
                 getPrice(playData.offers[0].price, playData.offers[0].priceCurrency),
-                playData.aggregateRating.ratingValue)
+                Math.round(playData.aggregateRating.ratingValue * 10.0)/10.0)
             }
     }
 }

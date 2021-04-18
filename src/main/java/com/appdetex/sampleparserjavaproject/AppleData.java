@@ -12,7 +12,7 @@ public class AppleData {
     }
 
     class Rating {
-        String ratingValue;
+        double ratingValue;
     }
 
     class Offer {

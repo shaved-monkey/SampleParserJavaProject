@@ -14,7 +14,7 @@ public class PlayData{
     }
 
     class Rating {
-        String ratingValue;
+        double ratingValue;
     }
 
     class Offer {
