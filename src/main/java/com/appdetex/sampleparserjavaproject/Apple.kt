@@ -2,8 +2,17 @@ package com.appdetex.sampleparserjavaproject
 
 import com.google.gson.Gson
 import org.jsoup.Jsoup
+import java.text.NumberFormat
+import java.util.*
 
 class Apple: Retriever {
+
+    private val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
+
+    private fun getPrice(price: Double, currency: String): String {
+        format.currency = Currency.getInstance(currency)
+        return format.format(price)
+    }
 
     override fun matchesUrl(url: String): Boolean {
         return url.contains("apps.apple.com")
@@ -16,6 +25,11 @@ class Apple: Retriever {
             .map { element -> element.data()}
             // Issues trying to 'fromJson' using a Kotlin data class, using Java class instead
             .map { data -> Gson().fromJson(data, AppleData::class.java)}
-            .map { playData -> Output(playData.name, playData.description.substringBefore("\n\n"), playData.author.name, playData.offers.price, playData.aggregateRating.ratingValue)}
+            .map { playData -> Output(playData.name,
+                playData.description.substringBefore("\n\n"),
+                playData.author.name,
+                getPrice(playData.offers.price, playData.offers.priceCurrency),
+                playData.aggregateRating.ratingValue)
+            }
     }
 }

@@ -16,6 +16,7 @@ public class AppleData {
     }
 
     class Offer {
-        String price;
+        double price;
+        String priceCurrency;
     }
 }

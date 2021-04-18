@@ -18,6 +18,7 @@ public class PlayData{
     }
 
     class Offer {
-        String price;
+        double price;
+        String priceCurrency;
     }
 }
