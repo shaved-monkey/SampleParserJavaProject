@@ -28,9 +28,12 @@ class GooglePlay: Retriever {
                 // Issues trying to 'fromJson' using a Kotlin data class, using Java class instead
             .map { data -> Gson().fromJson(data, PlayData::class.java)}
             .map { playData -> BasicInfo(playData.name,
+                // using /n/n to determine paragraphs
                 playData.description.substringBefore("\n\n"),
                 playData.author.name,
+                // Proper currency formatting
                 getPrice(playData.offers[0].price, playData.offers[0].priceCurrency),
+                // rounding to tenths place
                 Math.round(playData.aggregateRating.ratingValue * 10.0)/10.0)
             }
     }
