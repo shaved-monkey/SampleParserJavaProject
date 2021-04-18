@@ -1,5 +1,8 @@
 package com.appdetex.sampleparserjavaproject;
 
+import com.appdetex.sampleparserjavaproject.retrievers.Retriever;
+import com.appdetex.sampleparserjavaproject.retrievers.apple.Apple;
+import com.appdetex.sampleparserjavaproject.retrievers.googleplay.GooglePlay;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -23,9 +26,9 @@ public class Main {
         // Put code here
         var url = args[0];
         var outputList = retrievers.stream()
-                .filter(retrievers -> retrievers.matchesUrl(url))
-                .map(retriever -> retriever.getPage(url))
-                .map(outputs -> outputs.get(0))
+                .filter(retrievers -> retrievers.compatibleWith(url))
+                .map(retriever -> retriever.extractFrom(url))
+                .map(results -> results.get(0))
                 .map(gson::toJson)
                 .collect(Collectors.toList());
         System.out.println(outputList.get(0));

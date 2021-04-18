@@ -1,4 +1,4 @@
-package com.appdetex.sampleparserjavaproject;
+package com.appdetex.sampleparserjavaproject.retrievers.apple;
 
 public class AppleData {
     String name;

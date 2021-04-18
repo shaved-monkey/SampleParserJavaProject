@@ -1,5 +1,7 @@
-package com.appdetex.sampleparserjavaproject
+package com.appdetex.sampleparserjavaproject.retrievers.apple
 
+import com.appdetex.sampleparserjavaproject.retrievers.BasicInfo
+import com.appdetex.sampleparserjavaproject.retrievers.Retriever
 import com.google.gson.Gson
 import org.jsoup.Jsoup
 import java.text.NumberFormat
@@ -14,18 +16,18 @@ class Apple: Retriever {
         return format.format(price)
     }
 
-    override fun matchesUrl(url: String): Boolean {
+    override fun compatibleWith(url: String): Boolean {
         return url.contains("apps.apple.com")
     }
 
-    override fun getPage(url: String): List<Output> {
+    override fun extractFrom(url: String): List<BasicInfo> {
         return Jsoup.connect(url)
             .get()
             .getElementsByAttributeValue("type", "application/ld+json")
             .map { element -> element.data()}
             // Issues trying to 'fromJson' using a Kotlin data class, using Java class instead
             .map { data -> Gson().fromJson(data, AppleData::class.java)}
-            .map { playData -> Output(playData.name,
+            .map { playData -> BasicInfo(playData.name,
                 playData.description.substringBefore("\n\n"),
                 playData.author.name,
                 getPrice(playData.offers.price, playData.offers.priceCurrency),

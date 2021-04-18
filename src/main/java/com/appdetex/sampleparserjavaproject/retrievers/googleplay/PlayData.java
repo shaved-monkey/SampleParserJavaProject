@@ -1,4 +1,4 @@
-package com.appdetex.sampleparserjavaproject;
+package com.appdetex.sampleparserjavaproject.retrievers.googleplay;
 
 import java.util.List;
 
