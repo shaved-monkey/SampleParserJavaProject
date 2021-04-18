@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class Main {
 
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    static Collection<Retriever> retrievers = Arrays.asList(new GooglePlay());
+    static Collection<Retriever> retrievers = Arrays.asList(new GooglePlay(), new Apple());
 
     public static void main( String[] args ) {
         // Put code here
