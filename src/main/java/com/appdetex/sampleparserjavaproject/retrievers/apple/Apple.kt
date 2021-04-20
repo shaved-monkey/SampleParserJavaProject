@@ -2,10 +2,13 @@ package com.appdetex.sampleparserjavaproject.retrievers.apple
 
 import com.appdetex.sampleparserjavaproject.retrievers.BasicInfo
 import com.appdetex.sampleparserjavaproject.retrievers.Retriever
+import com.appdetex.sampleparserjavaproject.retrievers.googleplay.PlayData
 import com.google.gson.Gson
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 class Apple: Retriever {
 
@@ -24,9 +27,17 @@ class Apple: Retriever {
     override val delayInSeconds: Long = 2
 
     override fun extractFrom(url: String): List<BasicInfo> {
-        return Jsoup.connect(url)
-            .get()
-            .getElementsByAttributeValue("type", "application/ld+json")
+        val doc = fetch(url)
+        return if (doc == null) {
+            println("Unable to fetch $url")
+            Collections.emptyList()
+        } else {
+            parse(doc)
+        }
+    }
+
+    fun parse(doc: Document): List<BasicInfo> {
+        return doc.getElementsByAttributeValue("type", "application/ld+json")
             .map { element -> element.data()}
             // Issues trying to 'fromJson' using a Kotlin data class, using Java class instead
             .map { data -> Gson().fromJson(data, AppleData::class.java)}
