@@ -20,6 +20,9 @@ class Apple: Retriever {
         return url.contains("apps.apple.com")
     }
 
+    override val retries: Int = 2
+    override val delayInSeconds: Long = 2
+
     override fun extractFrom(url: String): List<BasicInfo> {
         return Jsoup.connect(url)
             .get()
